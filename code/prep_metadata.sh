@@ -12,5 +12,5 @@
 
 ### Extracting 'P' lines from .meta file
 grep '^P' ../data/subset_complete_genome_segments_k99.meta \
-    > tmp.txt
+    > scg_seg_k99_Plines.txt
 
