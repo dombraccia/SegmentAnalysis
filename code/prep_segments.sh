@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -J prep_meta # Job name 
+#SBATCH -J prep_seg # Job name 
 #SBATCH -o /dev/null # suppress output file
 #SBATCH -e /dev/null # suppress error file
 #SBATCH --mail-user=dbraccia@terpmail.umd.edu # Email for job info
@@ -8,9 +8,8 @@
 #SBATCH --qos=throughput 
 #SBATCH --mem=36gb
 
-# Preparing metadata for parsing and analysis in python
+# Preparing metadata for parsing and analysis in python / GenomicRanges (R)
 
-### Extracting 'P' lines from .meta file
-grep '^P' ../data/subset_complete_genome_segments_k99.meta \
-    > scg_seg_k99_Plines.txt
-
+# go from "gfa" file to "fasta" file using `gfa2fa` from `gfatools`
+time fs/cbcb-lab/hcorrada/SGVFinder/SegmentsAnalysis/external/gfatools/gfatools \
+    gfa2bed -m 'path/to/gfa/file.gfa1' > 'path/to/BED/file.bed' 
