@@ -18,11 +18,11 @@ git clone https://github.com/lh3/gfatools
 cd gfatools && make
 ```
 
-## Step 1: getting data 
+## Step 2: getting data 
 
 Data comes from previous analysis. Contact @dombraccia for more information.
 
-## Step 2: run prep_segments.sh
+## Step 3: run prep_segments.sh
 
 This is the script for actually running `gfatools` functions.
 

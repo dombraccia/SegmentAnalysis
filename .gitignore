@@ -1,6 +1,16 @@
-.Rproj.user
-.Rhistory
-.RData
-.Ruserdata
-.RDS
+## R
+*.Rproj.user
+*.Rhistory
+*.RData
+*.Ruserdata
+*.RDS
 *.Rproj
+
+## DATA FILES
+*.bed
+*.gfa*
+*.fasta
+
+## OUT FILES
+*.o
+*.e
