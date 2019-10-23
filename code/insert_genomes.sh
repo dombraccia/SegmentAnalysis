@@ -12,8 +12,8 @@
 ## 'S' LINE IN THE GFA FILE
 
 #initializing $filename
-#filename=../data/genome_s_lines.tmp
-filename=../data/B.tmp
+#filename=../data/B.tmp # testing
+filename=../data/genome_s_lines.tmp
 
 #find all S_lines with a '*' in the third field & subset to tmp file
 #head -n 20000 ../data/scg_segments_k99.gfa1 | awk '$3 ~ /*/ {print}' >> ../data/genome_s_lines.tmp
@@ -44,3 +44,10 @@ do
     #incrimenting
     count=`expr $count + 2`
 done
+
+#NOW: replace all leading S-lines in .gfa1 file with those from 
+#     genome_s_lines_complete.tmp which contain whole genomes
+
+
+
+# once completely replaced in the actual .gfa file, delete all temp files
