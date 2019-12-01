@@ -1,7 +1,7 @@
 import json
 gen={}
 seg={}
-with open('/fs/cbcb-scratch/dfirer/data/data/ex_plines.txt') as plines:
+with open('/fs/cbcb-scratch/dfirer/data/data/plines.txt') as plines:
     #r= plines.readline().split()
     for line in plines:
         if line[0] == 'P':
@@ -19,7 +19,7 @@ with open('/fs/cbcb-scratch/dfirer/data/data/ex_plines.txt') as plines:
 
 plines.close()
 
-with open('dict_gen_to_seg_ex.txt', 'w') as output1:
+with open('dict_gen_to_seg.txt', 'w') as output1:
     json.dump(gen, output1)
-with open('dict_seg_to_gen_ex.txt', 'w') as output2:
+with open('dict_seg_to_gen.txt', 'w') as output2:
     json.dump(seg, output2)    

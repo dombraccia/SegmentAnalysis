@@ -8,8 +8,8 @@
 #SBATCH --qos=large 
 #SBATCH --mem=128gb
 
-python ./graph_seg_to_gen.py
-python ./graph_gen_to_seg.py
+#python ./graph_seg_to_gen.py
+#python ./graph_gen_to_seg.py
 python ./graph_count_of_gen.py
-python ./graph_count_of_seg.py
-python ./graph_plusVSminus.py
+#python ./graph_count_of_seg.py
+#python ./graph_plusVSminus.py
