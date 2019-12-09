@@ -10,22 +10,21 @@ cd SegmentAnalysis
 
 ## Step 1: external requirments
 
-Tools that this analysis depends on: `gfatools` from Heng Li:
-
-```
-cd external
-git clone https://github.com/lh3/gfatools
-cd gfatools && make
-```
+TODO: External tools and requirements 
 
 ## Step 2: getting data 
 
 Data comes from previous analysis. Contact @dombraccia for more information.
 
-## Step 3: run prep_segments.sh
+## Step 3: processing reference genomes -> segments
 
-This is the script for actually running `gfatools` functions.
+TODO: Add steps here
+
+## Step 4: running `pipeline.sh`
+
+The `code/pipeline.sh` script contains all the steps necessary to regenerate the analysis of genomic segments. It is recommended that the pipeline script be run on a remote server or cluster system with high performance processing power:
 
 ```
-bash prep_segments.sh <any_input_necessary>
+# from project ~ dir:
+bash code/pipeline.sh
 ```
