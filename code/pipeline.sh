@@ -8,9 +8,10 @@
 #SBATCH --qos=xlarge 
 #SBATCH --mem=495gb
 
-# TODO: INCLUDE GENOME -> SEGMENT STEPS
+#### a script to keep track of input & outputs for each step in the 
+#### SegmentAnalysis pipeline
 
-#### a script to keep track of input & outputs for each step
+# TODO: INCLUDE GENOME -> SEGMENT STEPS
 
 echo '- getting P-lines from .gfa1 file'
 grep '^P' ../../data/scg_segments_k99.gfa1 >> ../data/plines.txt
@@ -21,5 +22,9 @@ time python -u ./dict.py
 echo '- adding ubiquity, segment lengths, GC % info to dictionaries'
 time python -u ./segment_lengths.py
 
-echo '- graphing things'
-time python -u ./
+echo '- converting saved dictionaries to pandas DataFrame and pickling'
+time python -u ./dict_to_dataframe.py
+
+echo '- graphing histograms'
+time python -u ./graph_hists.py
+

@@ -11,4 +11,4 @@
 # SCRIPT FOR RUNNING PYTHON SCRIPTS ON CLUSTER
 
 # $1: give path to py script
-python -u $1
+time python -u $1
