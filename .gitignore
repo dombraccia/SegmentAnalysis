@@ -8,6 +8,8 @@
 
 ## DATA FILES
 data/*
+results/*
+archived/*
 *.bed
 *.gfa*
 *.fasta
