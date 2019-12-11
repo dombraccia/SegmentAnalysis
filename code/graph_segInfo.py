@@ -2,7 +2,7 @@ import json
 import pandas as pd
 import numpy as np
 import seaborn as sns
-import matplotlib as plt
+import matplotlib.pyplot as plt
 import vaex
 import pickle
 import time
@@ -16,18 +16,28 @@ A script for graphing histograms from segment_info.json dictionaries
 # open up files from pickle
 print('-- loading dataframe of seginfo ')
 t = time.time()
-#segInfoDF = pickle.load(open("../results/segInfoDF.pickle", "rb"))
-testInfoDF = pickle.load(open("../results/testInfoDF.pickle", "rb"))
+segInfoDF = pickle.load(open("../results/segInfoDF.pickle", "rb"))
+# segInfoDF = pickle.load(open("../results/testInfoDF.pickle", "rb"))
 elapsed = time.time() - t
 print("--- time elapsed: ", round(elapsed/60, 2), "min")
 
 # ======================= BASIC HISTOGRAM PLOTS ============================= #
  
-
-print('-- histogram of num_of_genomes using vaex')
+print('-- histogram of num_of_genomes using matplotlib.pyplot')
 t = time.time()
-aplot = testInfoDF.num_of_genomes.hist()
-aplot.savefig('../results/test_hist.png')
+x = segInfoDF.num_of_genomes
+n, bins, patches = plt.hist(x, bins = 400)
+print('n =', n)
+print('bins =', bins)
+print('patches =', patches)
+
+plt.title('Segment Ubiquity')
+plt.xlabel('number of genomes')
+plt.ylabel('log(number of segments)')
+plt.yscale('log', nonposy='clip')
+plt.savefig('../results/test_hist.png')
+# aplot = testInfoDF.num_of_genomes.hist()
+# aplot.savefig('../results/test_hist.png')
 elapsed = time.time() - t
 print("--- time elapsed: ", round(elapsed/60, 2), "min")
 
