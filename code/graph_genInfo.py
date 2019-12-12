@@ -21,7 +21,7 @@ print("--- time elapsed: ", round(elapsed/60, 2), "min")
 print('-- histogram of num_of_segments using matplotlib.pyplot')
 t = time.time()
 print('column name(s):', genInfoDF.columns)
-x = genInfoDF.num_of_segments
+x = genInfoDF.num_of_segments #TODO: how many of these segments are uniqe? what are their lengths?
 n, bins, patches = plt.hist(x, bins = 200) # TODO: calculate number of bins more ... better
 
 plt.title('Genome Segmentation (# of segments per genome)')

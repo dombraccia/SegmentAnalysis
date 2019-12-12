@@ -32,4 +32,16 @@ plt.savefig('../results/scg_segment_ubiquity.png')
 elapsed = time.time() - t
 print("--- time elapsed: ", round(elapsed/60, 2), "min")
 
+print('-- histogram of length_(bp) using matplotlib.pyplot')
+t = time.time()
+x = segInfoDF.length_bp
+n, bins, patches = plt.hist(x, bins = 400, color = "b") #TODO: calculate number of bins more ... better
+plt.title('Segment Lengths')
+plt.xlabel('segment length (bp)')
+plt.ylabel('number of segments')
+#plt.yscale('log', nonposy='clip')
+plt.savefig('../results/scg_segment_length.png')
+elapsed = time.time() - t
+print("--- time elapsed: ", round(elapsed/60, 2), "min")
+
 # =========================================================================== #
