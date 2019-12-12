@@ -11,7 +11,21 @@
 #### a script to keep track of input & outputs for each step in the 
 #### SegmentAnalysis pipeline
 
-# TODO: INCLUDE GENOME -> SEGMENT STEPS
+# TODO: MODIFY GENOME -> SEGMENT STEPS AS NEEDED
+
+echo '- download reference sequences from NCBI - RefSeq'
+time bash ./download_refseq_genomes.sh #TODO: NEEDS MODIFICATION
+
+echo '- convert multiline reference genomes to single line'
+time bash ./multiline2oneline.sh #TODO: NEEDS MODIFICATION
+
+echo '- subsetting complete reference genomes from full set'
+time bash ./subset_selected_seqs.sh #TODO: NEEDS MODIFICATION
+
+echo '- running twopaco && graphdump (NOTE: split_tpcgd_outfile.sh is called within this script'
+time bash ./tpc_gd.sh #TODO: NEEDS MODIFICATION
+
+# =========================================================================== #
 
 echo '- getting P-lines from .gfa1 file'
 grep '^P' ../../data/scg_segments_k99.gfa1 >> ../data/plines.txt
@@ -25,6 +39,10 @@ time python -u ./segment_lengths.py
 echo '- converting saved dictionaries to pandas DataFrame and pickling'
 time python -u ./dict_to_dataframe.py
 
+echo '- adding column in genInfoDF to include # of unique segments'
+time python -u ./uniq_segs.py
+
 echo '- graphing histograms'
-time python -u ./graph_hists.py
+time python -u ./graph_segInfo.py
+time python -u ./graph_genInfo.py
 
