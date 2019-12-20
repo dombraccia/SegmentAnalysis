@@ -20,7 +20,6 @@ print("--- time elapsed: ", round(elapsed/60, 2), "min")
  
 print('-- histogram of num_of_segments using matplotlib.pyplot')
 t = time.time()
-print('column name(s):', genInfoDF.columns)
 x = genInfoDF.num_of_segments #TODO: how many of these segments are uniqe? what are their lengths?
 n, bins, patches = plt.hist(x, bins = 200) # TODO: calculate number of bins more ... better
 
@@ -37,14 +36,14 @@ print("--- time elapsed: ", round(elapsed/60, 2), "min")
 
 print('-- histogram of num_uniq_segs using matplotlib.pyplot')
 t = time.time()
-x = genInfoDF.num_uniq_segs
-n, bins, patches = plt.hist(x, bins = 350)
+x = genInfoDF[genInfoDF.num_uniq_segs < 1000]
+n, bins, patches = plt.hist(x, bins = 1000)
 
 plt.title('Genome Uniqeness (# of unique segments per genome)')
 plt.xlabel('number of unique segments')
 plt.ylabel('number of genomes')
 plt.yscale('log', nonposy = 'clip')
-plt.savefig('../results/scg_genome_uniqness.png')
+plt.savefig('../results/scg_genome_uniqueness.png')
 plt.close()
 elapsed = time.time() - t
 print("--- time elapsed: ", round(elapsed/60, 2), "min")
