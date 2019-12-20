@@ -27,9 +27,24 @@ n, bins, patches = plt.hist(x, bins = 200) # TODO: calculate number of bins more
 plt.title('Genome Segmentation (# of segments per genome)')
 plt.xlabel('number of segments')
 plt.ylabel('number of genomes')
-#plt.yscale('log', nonposy='clip')
+#plt.yscale('log', nonposy = 'clip')
 plt.savefig('../results/scg_genome_segmentation.png')
+plt.close()
 elapsed = time.time() - t
 print("--- time elapsed: ", round(elapsed/60, 2), "min")
 
-# =========================================================================== #
+# ===================== NUMBER OF UNIQUE SEGS PLOTS ========================= #
+
+print('-- histogram of num_uniq_segs using matplotlib.pyplot')
+t = time.time()
+x = genInfoDF.num_uniq_segs
+n, bins, patches = plt.hist(x, bins = 350)
+
+plt.title('Genome Uniqeness (# of unique segments per genome)')
+plt.xlabel('number of unique segments')
+plt.ylabel('number of genomes')
+plt.yscale('log', nonposy = 'clip')
+plt.savefig('../results/scg_genome_uniqness.png')
+plt.close()
+elapsed = time.time() - t
+print("--- time elapsed: ", round(elapsed/60, 2), "min")
