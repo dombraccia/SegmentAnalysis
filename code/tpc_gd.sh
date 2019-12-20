@@ -12,7 +12,6 @@
 
 # THIS SCRIPT: combining the twopaco and graph dump scripts into one
 
-#NOTEs: run from root directory (pseudoSVfinder)
 # $1 output file name for de Bruijn graph
 # $2 kvalue 99
 # $3 ../data/from-ncbi/subset_Streptococcus.fasta is an example of a \
@@ -48,7 +47,7 @@
 rm $1
 
 # run shell script which splits the log and gfa file
-# $4: name of output gfa file (example ../data/from-ncbi/index_segments_k99/subset_complete_genome.gfa1)
+# $4: name of output gfa file (example: subset_complete_genome.gfa1)
 bash ./split_tpcgd_outfile.sh $4
 
 # renaming the output file: DO THIS SEPERATELY FOR NOW
