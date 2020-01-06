@@ -11,4 +11,5 @@
 # SCRIPT FOR RUNNING PYTHON SCRIPTS ON CLUSTER
 
 # $1: give desired output of snakefile
+# EXAMPLE CALL: sbatch submit_snakemake.sh data/subset_complete_genome.gfa1
 time snakemake -p $1

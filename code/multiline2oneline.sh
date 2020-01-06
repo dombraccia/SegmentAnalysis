@@ -12,7 +12,7 @@
 
 # converting multi-line fasta to single line fasta file
 awk '/^>/ {printf("\n%s\n",$0);next; } { printf("%s",$0);} END {printf("\n");}' \
-    ../data/all_complete_refseq_bac.fasta > ../data/all_complete_refseq_bac_oneline.fasta
+    data/all_complete_refseq_bac.fasta > data/all_complete_refseq_bac_oneline.fasta
 
-rm ../data/all_complete_refseq_bac.fasta
-mv ../data/all_complete_refseq_bac_oneline.fasta ../data/all_complete_refseq_bac.fasta
+rm data/all_complete_refseq_bac.fasta
+mv data/all_complete_refseq_bac_oneline.fasta data/all_complete_refseq_bac.fasta
