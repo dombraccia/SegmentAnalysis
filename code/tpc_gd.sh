@@ -14,8 +14,8 @@
 
 # $1 output file name for de Bruijn graph
 # $2 kvalue 99
-# $3 ../data/from-ncbi/subset_Streptococcus.fasta is an example of a \
-# fasta file of genomes for input 
+# $3 data/from-ncbi/subset_Streptococcus.fasta is an example of a 
+#    fasta file of genomes for input 
 
 # EXAMPLE sbatch CALL: 
 # sbatch run_TwoPaCo.sh subset_complete_genome.bin 99 ../data/from-ncbi/subset_complete_genome.fasta 
@@ -37,18 +37,18 @@
 #     example: 99
 # $3: location of the original fasta file containing genomes 
 #     example: '../data/from-ncbi/subset_complete_genome.fasta'
-/usr/bin/time time external/TwoPaCo/build/graphdump/graphdump \
+/usr/bin/time external/TwoPaCo/build/graphdump/graphdump \
     $1 \
     -f gfa1 \
     -k $2 \
-    -s $3
+    -s $3 > data/subset_complete_genome.gfa1
 
 # removing debruijn graph after creation
-rm $1
+#rm $1
 
 # run shell script which splits the log and gfa file
 # $4: name of output gfa file (example: subset_complete_genome.gfa1)
-bash code/split_tpcgd_outfile.sh $4
+#bash code/split_tpcgd_outfile.sh $4
 
 # renaming the output file: DO THIS SEPERATELY FOR NOW
 #mv run_tpc_gd_%j.o ../data/test/test_genomes/test_genomes.gfa1

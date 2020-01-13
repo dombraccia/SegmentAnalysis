@@ -29,13 +29,13 @@ for i, record in enumerate(SeqIO.parse("data/scg_segments.fasta", "fasta")):
         print('--- on segment number: ', str(i)) # check at every 1 mil iterations
     segments[record.id] = (segments[record.id], len(record), round(GC(record.seq)))
 
-# saving the final segment info
+# saving the final segment info dictionary
 print('-- saving final dictionary')
-with open('data/scg_k99_segment_info.json', 'w') as output1:
+with open('data/scg_segment_info.json', 'w') as output1:
     json.dump(segments, output1)
 
 print('-- cleaning up intermediate files')
 segment_info.close()
-os.remove('data/segment_info.json')
+#os.remove('data/segment_info.json')
 genome_info.close()
-os.remove('data/genome_info.json')
+#os.remove('data/genome_info.json') 

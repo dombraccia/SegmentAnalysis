@@ -12,7 +12,7 @@ segment_counts=Counter()   # need to make a seperate dictionary to store counts
 
 print('-- writing genome_counts and segment_counts dictionaries')
 t = time.time()
-with open('../data/plines.txt') as plines:
+with open('data/plines.txt') as plines:
     #r= plines.readline().split()
     for i, line in enumerate(plines):
         if i % 1000 == 0:
@@ -36,13 +36,13 @@ print('--- time elapsed:', round(elapsed/60, 3), "min")
 
 print('-- write dictionaries to file')
 t = time.time()
-with open('../data/genome_info.json', 'w') as gen_counts_out:
+with open('data/genome_info.json', 'w') as gen_counts_out:
     json.dump(genome_counts, gen_counts_out)
-with open('../data/genomes.json', 'w') as gen_out:
+with open('data/genomes.json', 'w') as gen_out:
     json.dump(genomes, gen_out)
-with open('../data/segment_info.json', 'w') as seg_counts_out:
+with open('data/segment_info.json', 'w') as seg_counts_out:
     json.dump(segment_counts, seg_counts_out)
-with open('../data/segments.json', 'w') as seg_out:
+with open('data/segments.json', 'w') as seg_out:
     json.dump(segments, seg_out)
 elapsed = time.time() - t
 print('--- time elapsed:', round(elapsed/60, 3), "min")

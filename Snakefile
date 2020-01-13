@@ -31,12 +31,22 @@ rule tpc_gd:
     shell:
         "time bash code/tpc_gd.sh de_Bruijn.bin 99 {input} {output}"
 
-
 rule get_plines:
+    input:
+        "data/subset_complete_genome.gfa1"
     output:
         "data/plines.txt"
     shell:
-        "grep '^P' data/subset_complete_genome.gfa1 >> data/plines.txt"
+        "grep '^P' {input} >> {output}"
+
+rule get_segments_from_gfa:
+    input:
+        "data/subset_complete_genome.gfa1"
+    output:
+        "data/segments_subset_complete_genome.fasta"
+    shell:
+        "code/split_gfa1.sh {input}"
+        
 
 rule generate_segment_and_genome_dictionaries:
     input:
@@ -52,9 +62,11 @@ rule generate_segment_and_genome_dictionaries:
 rule modify_info_dicts:
     input: 
         "data/segment_info.json",
-        "data/genome_info.json"
+        "data/genome_info.json",
+        "data/segments_subset_complete_genome.fasta"
     output:
-        "data/segment_info.json",
-        "data/genome_info.json"
+        "data/segment_info_all.json"
     script:
         "code/segment_lengths.py"
+
+# rule 
