@@ -6,13 +6,11 @@
 #SBATCH --qos=large
 #SBATCH --mem=128gb
 
-##### TODO: MODIFY TO WORK IN SEGMENTANALYSIS PIPELINE
-
 # a script for converting a multiline fasta file to a one life fasta file
 
 # converting multi-line fasta to single line fasta file
 awk '/^>/ {printf("\n%s\n",$0);next; } { printf("%s",$0);} END {printf("\n");}' \
-    data/all_complete_refseq_bac.fasta > data/all_complete_refseq_bac_oneline.fasta
+    $1 | sed '/^$/d' > data/tmp_oneline.fasta
 
-rm data/all_complete_refseq_bac.fasta
-mv data/all_complete_refseq_bac_oneline.fasta data/all_complete_refseq_bac.fasta
+rm $1
+mv data/tmp_oneline.fasta $2

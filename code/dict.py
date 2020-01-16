@@ -3,16 +3,18 @@ import json
 import os
 from collections import Counter, defaultdict
 import time
+import sys
 
 print('-- initialize dictionaries')
 genomes={}
 genome_counts={}
 segments=defaultdict(list) # eliminates the need for if/else statements
 segment_counts=Counter()   # need to make a seperate dictionary to store counts
+path2plines = sys.argv[1]
 
 print('-- writing genome_counts and segment_counts dictionaries')
 t = time.time()
-with open('data/plines.txt') as plines:
+with open(path2plines) as plines:
     #r= plines.readline().split()
     for i, line in enumerate(plines):
         if i % 1000 == 0:
@@ -36,13 +38,13 @@ print('--- time elapsed:', round(elapsed/60, 3), "min")
 
 print('-- write dictionaries to file')
 t = time.time()
-with open('data/genome_info.json', 'w') as gen_counts_out:
+with open(sys.argv[2], 'w') as gen_counts_out:
     json.dump(genome_counts, gen_counts_out)
-with open('data/genomes.json', 'w') as gen_out:
+with open(sys.argv[3], 'w') as gen_out:
     json.dump(genomes, gen_out)
-with open('data/segment_info.json', 'w') as seg_counts_out:
+with open(sys.argv[4], 'w') as seg_counts_out:
     json.dump(segment_counts, seg_counts_out)
-with open('data/segments.json', 'w') as seg_out:
+with open(sys.argv[5], 'w') as seg_out:
     json.dump(segments, seg_out)
 elapsed = time.time() - t
 print('--- time elapsed:', round(elapsed/60, 3), "min")

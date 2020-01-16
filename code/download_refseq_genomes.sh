@@ -19,6 +19,3 @@ ftp_links=`cat data/assembly_summary_complete_genomes.txt`
 for next in $ftp_links; do wget -P data/refseq_genomes "$next"; done
 gunzip data/refseq_genomes/*.gz
 cat data/refseq_genomes/*.fna > data/all_complete_refseq_bac.fasta
-
-# converting the genome sequences to single line format using existing script
-bash code/multiline2oneline.sh 

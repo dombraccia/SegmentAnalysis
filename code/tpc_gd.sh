@@ -41,7 +41,7 @@
     $1 \
     -f gfa1 \
     -k $2 \
-    -s $3 > data/subset_complete_genome.gfa1
+    -s $3 > $4
 
 # removing debruijn graph after creation
 #rm $1
