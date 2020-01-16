@@ -14,19 +14,19 @@ rule download_refseq_genomes:
 
 rule multiline2oneline_refseq:
     input:
-        refseq = "data/all_complete_refseq_bac.fasta",
+        "data/all_complete_refseq_bac.fasta",
     output:
-        refseq = "data/all_complete_refseq_bac_oneline.fasta",
+        "data/all_complete_refseq_bac_oneline.fasta",
     shell:
-        "bash code/multiline2oneline.sh {input.refseq} {output.refseq}"
+        "bash code/multiline2oneline.sh {input} {output}"
 
 rule multiline2oneline_16S:
     input:
-        all_16S = "data/all_ncbi_16S.fasta"
+        "data/all_ncbi_16S.fasta"
     output:
-        all_16S = "data/all_ncbi_16S_oneline.fasta"
+        "data/all_ncbi_16S_oneline.fasta"
     shell:
-        "bash code/multiline2oneline.sh {input.all_16S} {output.all_16S}"
+        "bash code/multiline2oneline.sh {input} {output}"
 
 rule subset_selected_seqs:
     input:
