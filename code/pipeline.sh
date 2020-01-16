@@ -22,7 +22,6 @@ time bash ./subset_selected_seqs.sh
 printf "- running twopaco & graphdump \n  (NOTE: split_tpcgd_outfile.sh is called within this script)"
 time bash ./tpc_gd.sh de_Bruijn.bin 99 ../data/subset_complete_genome.fasta ../data/subset_complete_genome.gfa1
 
-# =========================================================================== #
 
 printf "- getting P-lines from .gfa1 file"
 grep '^P' ../../data/scg_segments_k99.gfa1 >> ../data/plines.txt
@@ -32,6 +31,8 @@ time python -u ./dict.py
 
 printf "- adding ubiquity, segment lengths, GC % info to dictionaries"
 time python -u ./segment_lengths.py
+
+# =========================================================================== #
 
 printf "- converting saved dictionaries to pandas DataFrame and pickling"
 time python -u ./dict_to_dataframe.py
