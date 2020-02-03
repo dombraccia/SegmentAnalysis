@@ -32,10 +32,10 @@ time python -u ./dict.py
 printf "- adding ubiquity, segment lengths, GC % info to dictionaries"
 time python -u ./segment_lengths.py
 
-# =========================================================================== #
-
 printf "- converting saved dictionaries to pandas DataFrame and pickling"
 time python -u ./dict_to_dataframe.py
+
+# =========================================================================== #
 
 printf "- adding column in genInfoDF to include # of unique segments"
 time python -u ./uniq_segs.py
