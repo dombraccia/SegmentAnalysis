@@ -23,10 +23,10 @@
 # job script for running TwoPaCo on all reference genomes
 /usr/bin/time external/TwoPaCo/build/graphconstructor/twopaco \
     --threads 16 \
-    -f 40 \
-    -o $1 \
-    --kvalue $2 \
-    $3
+    -f $1 \
+    -o $2 \
+    --kvalue $3 \
+    $4
 
 ## RUNNING `graphdump` TO EXTRACT GFA1 FILE FROM de Bruijn  GRAPH
 
@@ -38,10 +38,10 @@
 # $3: location of the original fasta file containing genomes 
 #     example: '../data/from-ncbi/subset_complete_genome.fasta'
 /usr/bin/time external/TwoPaCo/build/graphdump/graphdump \
-    $1 \
+    $2 \
     -f gfa1 \
-    -k $2 \
-    -s $3 > $4
+    -k $3 \
+    -s $4 > $5
 
 # removing debruijn graph after creation
 #rm $1

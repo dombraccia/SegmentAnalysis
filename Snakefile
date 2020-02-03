@@ -22,7 +22,7 @@ rule multiline2oneline_refseq:
 
 rule multiline2oneline_16S:
     input:
-        "data/all_ncbi_16S.fasta"
+        "data/sequence.fasta" # download from NCBI
     output:
         "data/all_ncbi_16S_oneline.fasta"
     shell:
@@ -42,7 +42,7 @@ rule tpc_gd_scg:
     output:
         scg = "data/subset_complete_genome.gfa1",
     shell:
-        "bash code/tpc_gd.sh scg_de_Bruijn.bin 99 {input.scg} {output.scg}"
+        "bash code/tpc_gd.sh 40 scg_de_Bruijn.bin 99 {input.scg} {output.scg}"
 
 rule tpc_gd_16S:
     input:
@@ -50,7 +50,7 @@ rule tpc_gd_16S:
     output:
         all_16S = "data/all_ncbi_16S.gfa1"
     shell:
-        "bash code/tpc_gd.sh all_16S_de_Bruijn.bin 25 {input.all_16S} {output.all_16S}"
+        "bash code/tpc_gd.sh 36 all_16S_de_Bruijn.bin 25 {input.all_16S} {output.all_16S}"
 
 rule get_scg_plines:
     input:
@@ -94,8 +94,8 @@ rule generate_scg_segment_and_genome_dictionaries:
         genomes = "data/scg_genomes.json",
         seg_info = "data/scg_segment_info.json",
         segments = "data/scg_segments.json"
-    script:
-        "code/dict.py {input} {output.gen_info} {output.genomes} {output.seg_info} {output.segments}"
+    shell:
+        "python code/dict.py {input} {output.gen_info} {output.genomes} {output.seg_info} {output.segments}"
 
 rule generate_16S_segment_and_gene_dictionaries:
     input:
@@ -105,8 +105,11 @@ rule generate_16S_segment_and_gene_dictionaries:
         genes = "data/all_ncbi_16S_genes.json",
         seg_info = "data/all_ncbi_16S_segment_info.json",
         segments = "data/all_ncbi_16S_segments.json"
-    script:
-        "code/dict.py {input} {output.gene_info} {output.genes} {output.seg_info} {output.segments}"
+    shell:
+        """
+        python code/dict.py \
+        {input} {output.gene_info} {output.genes} {output.seg_info} {output.segments}
+        """
 
 rule modify_scg_info_dicts:
     input: 
@@ -114,9 +117,12 @@ rule modify_scg_info_dicts:
         gen_info = "data/scg_genome_info.json",
         segments = "data/scg_segments.fasta"
     output:
-        "data/scg_segment_info.json"
+        "data/scg_segment_info_complete.json"
     script:
-        "code/segment_lengths.py {input.seg_info} {input.gen_info} {input.segments}"
+        """
+        code/segment_lengths.py \
+        {input.seg_info} {input.gen_info} {input.segments} {output}
+        """
 
 rule modify_16S_info_dicts:
     input: 
@@ -124,9 +130,25 @@ rule modify_16S_info_dicts:
         gene_info = "data/all_ncbi_16S_gene_info.json",
         segments = "data/all_ncbi_16S_segments.fasta"
     output:
-        "data/all_ncbi_16S_segment_info.json"
-    script:
-        "code/segment_lengths.py {input.seg_info} {input.gene_info} {input.segments}"
+        "data/all_ncbi_16S_segment_info_complete.json"
+    shell:
+        """
+        python code/segment_lengths.py \
+        {input.seg_info} {input.gene_info} {input.segments} {output}
+        """
+
+rule dict_to_dataframe_16S:
+    input:
+        seg_info = "data/all_ncbi_16S_segment_info_complete.json",
+        gene_info = "data/all_ncbi_16S_gene_info.json"
+    output:
+        segInfoDF = "results/all_ncbi_16S_segInfoDF.pickle",
+        geneInfoDF = "results/all_ncbi_16S_geneInfoDF.pickle"
+    shell:
+        """
+        python code/dict_to_dataframe.py \
+        {input.seg_info} {input.gene_info} {output.segInfoDF} {output.geneInfoDF}
+        """
 
 # ============================== EDA PLOTS ================================== #
 

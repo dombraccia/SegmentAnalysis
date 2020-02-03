@@ -17,6 +17,7 @@ TODO: other segment meta information to get?
 path2seg_info = sys.argv[1]
 path2gen_info = sys.argv[2]
 path2segments_fasta = sys.argv[3]
+path2seg_info_complete = sys.argv[4]
 
 # load in dictionary containing # of genomes from `dicts.py`
 print('-- loading initial dictionary with # genomes per segment')
@@ -37,7 +38,7 @@ for i, record in enumerate(SeqIO.parse(path2segments_fasta, "fasta")):
 
 # saving the final segment info dictionary
 print('-- saving final dictionary')
-with open(path2seg_info, 'w') as output1:
+with open(path2seg_info_complete, 'w') as output1:
     json.dump(segments, output1)
 
 print('-- cleaning up intermediate files')
