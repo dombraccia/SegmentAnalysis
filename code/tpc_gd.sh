@@ -12,22 +12,21 @@
 
 # THIS SCRIPT: combining the twopaco and graph dump scripts into one
 
-#NOTEs: run from root directory (pseudoSVfinder)
 # $1 output file name for de Bruijn graph
 # $2 kvalue 99
-# $3 ../data/from-ncbi/subset_Streptococcus.fasta is an example of a \
-# fasta file of genomes for input 
+# $3 data/from-ncbi/subset_Streptococcus.fasta is an example of a 
+#    fasta file of genomes for input 
 
 # EXAMPLE sbatch CALL: 
 # sbatch run_TwoPaCo.sh subset_complete_genome.bin 99 ../data/from-ncbi/subset_complete_genome.fasta 
 
 # job script for running TwoPaCo on all reference genomes
-/usr/bin/time ../external/TwoPaCo/build/graphconstructor/twopaco \
+/usr/bin/time external/TwoPaCo/build/graphconstructor/twopaco \
     --threads 16 \
-    -f 40 \
-    -o $1 \
-    --kvalue $2 \
-    $3
+    -f $1 \
+    -o $2 \
+    --kvalue $3 \
+    $4
 
 ## RUNNING `graphdump` TO EXTRACT GFA1 FILE FROM de Bruijn  GRAPH
 
@@ -38,18 +37,18 @@
 #     example: 99
 # $3: location of the original fasta file containing genomes 
 #     example: '../data/from-ncbi/subset_complete_genome.fasta'
-/usr/bin/time time ../external/TwoPaCo/build/graphdump/graphdump \
-    $1 \
+/usr/bin/time external/TwoPaCo/build/graphdump/graphdump \
+    $2 \
     -f gfa1 \
-    -k $2 \
-    -s $3
+    -k $3 \
+    -s $4 > $5
 
 # removing debruijn graph after creation
-rm $1
+#rm $1
 
 # run shell script which splits the log and gfa file
-# $4: name of output gfa file (example ../data/from-ncbi/index_segments_k99/subset_complete_genome.gfa1)
-bash ./split_tpcgd_outfile.sh $4
+# $4: name of output gfa file (example: subset_complete_genome.gfa1)
+#bash code/split_tpcgd_outfile.sh $4
 
 # renaming the output file: DO THIS SEPERATELY FOR NOW
 #mv run_tpc_gd_%j.o ../data/test/test_genomes/test_genomes.gfa1

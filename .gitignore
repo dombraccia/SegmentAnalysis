@@ -17,6 +17,7 @@ archived/*
 ## OUT FILES
 *.o
 *.e
+*.log
 
 ## SETTINGS
 .vscode
