@@ -118,10 +118,9 @@ rule modify_scg_info_dicts:
         segments = "data/scg_segments.fasta"
     output:
         "data/scg_segment_info_complete.json"
-    script:
+    shell:
         """
-        code/segment_lengths.py \
-        {input.seg_info} {input.gen_info} {input.segments} {output}
+        python code/segment_lengths.py {input.seg_info} {input.gen_info} {input.segments} {output}
         """
 
 rule modify_16S_info_dicts:
