@@ -6,7 +6,7 @@
 #SBATCH --mail-type=fail,end # Get email for begin, end, and fail
 #SBATCH --time=21-00:00:00
 #SBATCH --qos=xlarge 
-#SBATCH --mem=498gb
+#SBATCH --mem=495gb
 
 # SCRIPT FOR RUNNING PYTHON SCRIPTS ON CLUSTER
 

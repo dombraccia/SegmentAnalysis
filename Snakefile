@@ -123,6 +123,20 @@ rule modify_scg_info_dicts:
         python code/segment_lengths.py {input.seg_info} {input.gen_info} {input.segments} {output}
         """
 
+rule dict_to_dataframe_scg:
+    input:
+        seg_info = "data/scg_segment_info_complete.json",
+        gen_info = "data/scg_genome_info.json"
+    output:
+        segInfoDF = "results/segInfoDF.pickle",
+        genInfoDF = "results/genInfoDF.pickle"
+    shell:
+        """
+        python code/dict_to_dataframe.py \
+        {input.seg_info} {input.gen_info} {output.segInfoDF} {output.genInfoDF}
+        """
+
+
 rule modify_16S_info_dicts:
     input: 
         seg_info = "data/all_ncbi_16S_segment_info.json",
@@ -148,6 +162,26 @@ rule dict_to_dataframe_16S:
         python code/dict_to_dataframe.py \
         {input.seg_info} {input.gene_info} {output.segInfoDF} {output.geneInfoDF}
         """
+
+# ========================= PREP FOR GRanges OBJ ============================ #
+
+rule get_scg_clines:
+    input:
+        "data/subset_complete_genome.gfa1"
+    output:
+        "data/scg_clines.txt"
+    shell:
+        "grep '^C' {input} > {output}" 
+
+# NOT RUNNING YET
+rule write_clines_to_BED:
+    input:
+        scg_clines = "data/scg_clines.txt",
+        segInfoDF = "results/segInfoDF.pickle"
+    output:
+        ""
+    shell:
+        "python code/gfa2tsv.py {input.scg_clines} {input.segInfoDF} {output}" 
 
 # ============================== EDA PLOTS ================================== #
 
