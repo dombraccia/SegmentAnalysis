@@ -20,25 +20,25 @@ rule multiline2oneline_refseq:
     shell:
         "bash code/multiline2oneline.sh {input} {output}"
 
-rule cat_gff_files:
-    input:
-        "data/refseq_genome_annotations/*"
+# import os
+# gff_filenames = os.listdir("data/test_gffs")
+rule concatenate_gff_files: # FOR NOW: cat_gff_files.sh is hard coded to work
+                            # on the data/refseq_genome_annotations/ dir
+    # input:
+    #     expand("data/test_gffs/{anno}", anno = gff_filenames)
+    #     # "data/test_gffs/*.gff"
     output:
         "data/scg_annotations.gff"
-    shell: # initally removing output since >> operator will overwrite if file 
-           # already exists
-        "rm -f {output}; for f in {input}; do (cat '${f}'; echo) >> {output}; done"
-
-rule scg_gff2GenomicFeatures:
-    input:
-        "data/scg_annotations.gff"
-    output:
-        "data/<TxDb_obj_name>"
     shell: 
-        """
-            module load R/3.6.1 \
-            Rscript code/gff2GFeatures.R
-        """
+        "bash code/cat_gff_files.sh {output}"
+
+rule gff2TxDb:
+    input:
+        "data/scg_annotations.gff"
+    output:
+        "results/scg_txdb.sqlite"
+    shell: 
+        "source ~/.bash_profile; module load R/3.6.1; Rscript code/gff2TxDb.R {input} {output}"
 
 rule multiline2oneline_16S:
     input:
@@ -193,8 +193,7 @@ rule get_scg_clines:
     shell:
         "grep '^C' {input} > {output}" 
 
-# NOT RUNNING YET
-rule write_clines_to_BED:
+rule gfa2bed:
     input:
         scg_clines = "data/scg_clines.txt",
         segInfoDF = "results/segInfoDF.pickle"
@@ -202,6 +201,14 @@ rule write_clines_to_BED:
         "results/scg_segments.bed"
     shell:
         "python code/gfa2bed.py {input.scg_clines} {input.segInfoDF} {output}" 
+
+rule bed2GRanges:
+    input:
+        "data/scg_segments.bed" # ready to run once this completes
+    output:
+        "results/scg_segment_GRanges.tsv"
+    shell:
+        "Rscript code/bed2GRanges.R {input} {output}"
 
 # ============================== EDA PLOTS ================================== #
 
