@@ -6,7 +6,7 @@
 
 # =========================== SEGMENT GENERATION ============================ #
 
-rule download_refseq_genomes:
+rule download_refseq_genomes: # also downloads genome annotations from same loc
     output:
         "data/all_complete_refseq_bac.fasta"
     shell:
@@ -19,6 +19,26 @@ rule multiline2oneline_refseq:
         "data/all_complete_refseq_bac_oneline.fasta",
     shell:
         "bash code/multiline2oneline.sh {input} {output}"
+
+rule cat_gff_files:
+    input:
+        "data/refseq_genome_annotations/*"
+    output:
+        "data/scg_annotations.gff"
+    shell: # initally removing output since >> operator will overwrite if file 
+           # already exists
+        "rm -f {output}; for f in {input}; do (cat '${f}'; echo) >> {output}; done"
+
+rule scg_gff2GenomicFeatures:
+    input:
+        "data/scg_annotations.gff"
+    output:
+        "data/<TxDb_obj_name>"
+    shell: 
+        """
+            module load R/3.6.1 \
+            Rscript code/gff2GFeatures.R
+        """
 
 rule multiline2oneline_16S:
     input:
@@ -179,9 +199,9 @@ rule write_clines_to_BED:
         scg_clines = "data/scg_clines.txt",
         segInfoDF = "results/segInfoDF.pickle"
     output:
-        ""
+        "results/scg_segments.bed"
     shell:
-        "python code/gfa2tsv.py {input.scg_clines} {input.segInfoDF} {output}" 
+        "python code/gfa2bed.py {input.scg_clines} {input.segInfoDF} {output}" 
 
 # ============================== EDA PLOTS ================================== #
 
