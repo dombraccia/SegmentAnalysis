@@ -25,8 +25,8 @@
     --threads 16 \
     -f $1 \
     -o $2 \
-    --kvalue $3 \
-    $4
+    --kvalue $4 \
+    $5
 
 ## RUNNING `graphdump` TO EXTRACT GFA1 FILE FROM de Bruijn  GRAPH
 
@@ -39,9 +39,9 @@
 #     example: '../data/from-ncbi/subset_complete_genome.fasta'
 /usr/bin/time external/TwoPaCo/build/graphdump/graphdump \
     $2 \
-    -f gfa1 \
-    -k $3 \
-    -s $4 > $5
+    -f $3 \
+    -k $4 \
+    -s $5 > $6
 
 # removing debruijn graph after creation
 #rm $1

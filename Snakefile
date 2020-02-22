@@ -32,13 +32,13 @@ rule concatenate_gff_files: # FOR NOW: cat_gff_files.sh is hard coded to work
     shell: 
         "bash code/cat_gff_files.sh {output}"
 
-rule gff2TxDb:
+rule gff2GRList:
     input:
         "data/scg_annotations.gff"
     output:
-        "results/scg_txdb.sqlite"
+        "results/scg_GRList.Rds"
     shell: 
-        "source ~/.bash_profile; module load R/3.6.1; Rscript code/gff2TxDb.R {input} {output}"
+        "source ~/.bash_profile; module load R/3.6.1; Rscript code/gff2GRList.R {input} {output}"
 
 rule multiline2oneline_16S:
     input:
@@ -60,9 +60,9 @@ rule tpc_gd_scg:
     input:
         scg = "data/subset_complete_genome.fasta",
     output:
-        scg = "data/subset_complete_genome.gfa1",
+        scg = "data/subset_complete_genome.gfa2",
     shell:
-        "bash code/tpc_gd.sh 40 scg_de_Bruijn.bin 99 {input.scg} {output.scg}"
+        "bash code/tpc_gd.sh 40 scg_de_Bruijn.bin gfa2 99 {input.scg} {output.scg}"
 
 rule tpc_gd_16S:
     input:
@@ -192,6 +192,14 @@ rule get_scg_clines:
         "data/scg_clines.txt"
     shell:
         "grep '^C' {input} > {output}" 
+
+rule get_scg_flines:
+    input: 
+        "data/subset_complete_genome.gfa2"
+    output: 
+        "data/scg_flines.txt"
+    shell: 
+        "grep '^F' {input} > {output}" 
 
 rule gfa2bed:
     input:
