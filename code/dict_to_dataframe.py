@@ -26,6 +26,10 @@ segInfoDF.columns = ["num_of_genomes", "length_bp", "GC_content_(%)"]
 genInfoDF = pd.DataFrame.from_dict(genome_info, orient="index")
 genInfoDF.columns = ["num_of_segments"]
 
+# saving DataFrame to csv (for use in R scripts)
+print('-- saving DataFrame as csv for R script input')
+segInfoDF.to_csv(r'results/segInfoDF.csv', index = False)
+
 # pickling the dataframe
 segInfoOUT = open(sys.argv[3], 'wb')
 pickle.dump(segInfoDF, segInfoOUT)
