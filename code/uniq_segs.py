@@ -1,24 +1,31 @@
 import json
 import pickle
 import time
+import sys
 
 '''
 A script for figuring out how many segments are unique per genome.
 TODO: Get lengths of these uniq segments
 '''
 
+# take standard input from Snakefile
+path2genomes_json = sys.argv[1]
+path2genInfoDF_tmp = sys.argv[2]
+path2uniqSegInfoDF = sys.argv[3]
+path2genInfoDF = sys.argv[4]
+
 # import data
 print('-- opening large data files')
 t = time.time()
-with open('../data/genomes.json') as genomes_json:
+with open(path2genomes_json) as genomes_json:
     genomes = json.load(genomes_json)
 elapsed = time.time() - t
 print('---- time elapsed:', round(elapsed/60, 2), "min")
 
 print('-- loading genome and unique segments info dataframes (also large)')
 t = time.time()
-genInfoDF = pickle.load(open('../results/genInfoDF.pickle', 'rb')) # takes far too long to load into memory
-uniqSegInfoDF = pickle.load(open('../results/uniqSegInfoDF.pickle', 'rb'))
+genInfoDF = pickle.load(open(path2genInfoDF_tmp, 'rb')) # takes far too long to load into memory
+uniqSegInfoDF = pickle.load(open(path2uniqSegInfoDF, 'rb'))
 elapsed = time.time() - t
 print('---- time elapsed:', round(elapsed/60, 2), "min")
 
@@ -52,6 +59,6 @@ genInfoDF["num_uniq_segs"] = num_uniq_segs # setting new column in dataframe
 elapsed = time.time() - t
 print('---- time elapsed:', round(elapsed/60, 2), "min")
 
-genInfoOUT = open('../results/genInfoDF.pickle', 'wb')
+genInfoOUT = open(path2genInfoDF, 'wb')
 pickle.dump(genInfoDF, genInfoOUT)
 genInfoOUT.close()

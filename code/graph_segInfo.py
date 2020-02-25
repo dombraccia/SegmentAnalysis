@@ -3,17 +3,24 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pickle
 import time
+import sys
 
 '''
 A script for graphing histograms from segment_info.json dictionaries
 '''
+
+# ===================== LOADING IN STANDARD INPUT =========================== #
+
+path2segInfoDF = sys.argv[1]
+path2segUbiqityFig = sys.argv[2]
+path2segLengthFig = sys.argv[3]
 
 # ====================== LOADING IN PICKLED DATA ============================ #
 
 # open up files from pickle
 print('-- loading dataframe of seginfo ')
 t = time.time()
-segInfoDF = pickle.load(open("../results/segInfoDF.pickle", "rb"))
+segInfoDF = pickle.load(open(path2segInfoDF, "rb"))
 # segInfoDF = pickle.load(open("../results/testInfoDF.pickle", "rb"))
 elapsed = time.time() - t
 print("--- time elapsed: ", round(elapsed/60, 2), "min")
@@ -28,7 +35,7 @@ plt.title('Segment Ubiquity')
 plt.xlabel('number of genomes')
 plt.ylabel('log(number of segments)')
 plt.yscale('log', nonposy='clip')
-plt.savefig('../results/scg_segment_ubiquity.png')
+plt.savefig(path2segUbiqityFig)
 elapsed = time.time() - t
 print("--- time elapsed: ", round(elapsed/60, 2), "min")
 
@@ -40,7 +47,7 @@ plt.title('Segment Lengths')
 plt.xlabel('segment length (bp)')
 plt.ylabel('number of segments')
 #plt.yscale('log', nonposy='clip')
-plt.savefig('../results/scg_segment_length.png')
+plt.savefig(path2segLengthFig)
 elapsed = time.time() - t
 print("--- time elapsed: ", round(elapsed/60, 2), "min")
 

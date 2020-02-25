@@ -3,15 +3,21 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pickle
 import time
+import sys
 
 '''
 A script for graphing histograms from genome_info.json dictionaries
 '''
 
-# open up files from pickle
+# ===================== LOADING IN STANDARD INPUT =========================== #
+path2genInfoDF = sys.argv[1]
+path2genSegmentationFig = sys.argv[2]
+path2genUniqnessFig = sys.argv[3]
+
+# ==================== OPENING UP FILES FROM PICKLE ========================= #
 print('-- loading dataframe of genInfo ')
 t = time.time()
-genInfoDF = pickle.load(open("../results/genInfoDF.pickle", "rb"))
+genInfoDF = pickle.load(open(path2genInfoDF, "rb"))
 # testInfo = genInfoDF[:100]
 elapsed = time.time() - t
 print("--- time elapsed: ", round(elapsed/60, 2), "min")
@@ -27,7 +33,7 @@ plt.title('Genome Segmentation (# of segments per genome)')
 plt.xlabel('number of segments')
 plt.ylabel('number of genomes')
 #plt.yscale('log', nonposy = 'clip')
-plt.savefig('../results/scg_genome_segmentation.png')
+plt.savefig(path2genSegmentationFig)
 plt.close()
 elapsed = time.time() - t
 print("--- time elapsed: ", round(elapsed/60, 2), "min")
@@ -43,7 +49,7 @@ plt.title('Genome Uniqeness (# of unique segments per genome)')
 plt.xlabel('number of unique segments')
 plt.ylabel('number of genomes')
 plt.yscale('log', nonposy = 'clip')
-plt.savefig('../results/scg_genome_uniqueness.png')
+plt.savefig(path2genUniqnessFig)
 plt.close()
 elapsed = time.time() - t
 print("--- time elapsed: ", round(elapsed/60, 2), "min")

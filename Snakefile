@@ -56,6 +56,7 @@ rule subset_selected_seqs:
     shell:
         "time bash code/subset_selected_seqs.sh"
 
+# may want to split into two rules, so that the graph can be dumped as either gfa1 or gfa2
 rule tpc_gd_scg:
     input:
         scg = "data/subset_complete_genome.fasta",
@@ -148,12 +149,14 @@ rule dict_to_dataframe_scg:
         seg_info = "data/scg_segment_info_complete.json",
         gen_info = "data/scg_genome_info.json"
     output:
+        segInfoCSV = "results/segInfoDF.csv",
         segInfoDF = "results/segInfoDF.pickle",
-        genInfoDF = "results/genInfoDF.pickle"
+        genInfoDF = "results/genInfoDF_tmp.pickle",
+        uniqSegInfoDF = "results/uniqSegInfoDF.pickle"
     shell:
         """
         python code/dict_to_dataframe.py \
-        {input.seg_info} {input.gen_info} {output.segInfoDF} {output.genInfoDF}
+        {input.seg_info} {input.gen_info} {output.segInfoCSV} {output.segInfoDF} {output.genInfoDF} {output.uniqSegInfoDF}
         """
 
 
@@ -201,7 +204,7 @@ rule get_scg_flines:
     shell: 
         "grep '^F' {input} > {output}" 
 
-rule gfa2bed:
+rule clines_to_bed:
     input:
         scg_clines = "data/scg_clines.txt",
         segInfoDF = "results/segInfoDF.pickle"
@@ -209,6 +212,14 @@ rule gfa2bed:
         "results/scg_segments.bed"
     shell:
         "python code/gfa2bed.py {input.scg_clines} {input.segInfoDF} {output}" 
+
+rule flines_to_bed:
+    input:
+        "data/scg_flines_top100_shared.txt"
+    output:
+        "results/scg_top100_shared_segs_tmp.bed"
+    shell:
+        "python code/flines2bed.py {input} {output}"
 
 rule bed2GRanges:
     input:
@@ -220,3 +231,27 @@ rule bed2GRanges:
 
 # ============================== EDA PLOTS ================================== #
 
+rule make_uniqSegsInfoDF:
+    input: 
+        genomes = "data/genomes.json",
+        genInfoDF_tmp = "results/genInfoDF_tmp.pickle",
+        uniqSegInfoDF = "results/uniqSegInfoDF.pickle"
+    output: 
+        genInfoDF = "results/genInfoDF.pickle"
+    shell: 
+        """
+        python code/uniq_segs.py {input.genomes} {input.genInfoDF_tmp} {input.uniqSegInfoDF} {output.genInfoDF}
+        """
+
+rule generate_histograms:
+    input:
+        segInfoDF = "results/segInfoDF.pickle",
+        genInfoDF = "results/genInfoDF.pickle"
+    output:
+        segUbiquityFig = "results/scg_segment_ubiquity.png",
+        segLengthFig = "results/scg_segment_length.png",
+        genSegmentationFig = "results/scg_genome_segmentation.png",
+        genUniqnessFig = "results/scg_genome_uniqueness.png"
+    run:
+        shell("python code/graph_segInfo.py {input.segInfoDF} {output.segUbiquityFig} {output.segLengthFig}")
+        shell("python code/graph_genInfo.py {input.genInfoDF} {output.genSegmentationFig} {output.genUniqnessFig}")
