@@ -20,10 +20,10 @@ segInfo_top100_shared <- top_n(segInfo, n = 100, wt = num_of_genomes)
 top100_segIDs <- as.character(segInfo_top100_shared$X) # for now just manually grepping this to get line from data/flines.txt
 
 # grep top 100 shared segs from the flines.txt file
-for (id in seq_along(top100_segIDs)) {
-   grep(top100_segIDs[id], "data/flines.txt")
-}
-grep(top100_segIDs)
+# for (id in seq_along(top100_segIDs)) {
+#    grep(top100_segIDs[id], "data/flines.txt")
+# }
+# grep(top100_segIDs)
 
 # FOR NOW: GREP-ING TOP 100 SHARED SEGS MANUALLY AND CONVERTING F-LINES TO BED
 # FILE FORMAT THEN DOING OVERLAPS

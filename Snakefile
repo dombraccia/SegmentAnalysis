@@ -204,6 +204,26 @@ rule get_scg_flines:
     shell: 
         "grep '^F' {input} > {output}" 
 
+# exporting F-lines for top100 most shared segments
+rule subset_flines_by_top100_shared_segs:
+    input:
+        top100shared_segs = "results/scg_top100_shared_segs.txt", # this was created manually ... 
+                                                                  # TODO: automate creation of this list
+        flines = "data/scg_flines.txt"
+    output:
+        "data/scg_flines_top100_shared.tsv"
+    run:
+        shell("awk 'NR==FNR{pats[$0]; next} $2 in pats' {input.top100shared_segs} {input.flines} > {output}")
+
+rule find_overlaps_top100:
+    input:
+        gffGRList = "results/scg_GRList.Rds",
+        top100shared_flines = "data/scg_flines_top100_shared.tsv"
+    output:
+        "" # not sure yet
+    shell:
+        "Rscript code/find_overlaps.R {input.gffGRList} {input.top100shared_flines}"
+
 rule clines_to_bed:
     input:
         scg_clines = "data/scg_clines.txt",
@@ -213,21 +233,24 @@ rule clines_to_bed:
     shell:
         "python code/gfa2bed.py {input.scg_clines} {input.segInfoDF} {output}" 
 
-rule flines_to_bed:
-    input:
-        "data/scg_flines_top100_shared.txt"
-    output:
-        "results/scg_top100_shared_segs_tmp.bed"
-    shell:
-        "python code/flines2bed.py {input} {output}"
+# dont actually need to do this.. can directly take the scg_flines.txt (tsv)
+# output and load it directly to R and make a GRanges object out of it
+# rule flines_to_bed:
+#     input:
+#         "data/scg_flines_top100_shared.txt"
+#     output:
+#         "results/scg_top100_shared_segs_tmp.bed"
+#     shell:
+#         "python code/flines2bed.py {input} {output}"
 
-rule bed2GRanges:
-    input:
-        "data/scg_segments.bed" # ready to run once this completes
-    output:
-        "results/scg_segment_GRanges.tsv"
-    shell:
-        "Rscript code/bed2GRanges.R {input} {output}"
+# also not necessary since we can go directly from flines -> GRanges
+# rule bed2GRanges:
+#     input:
+#         "data/scg_segments.bed" # ready to run once this completes
+#     output:
+#         "results/scg_segment_GRanges.tsv"
+#     shell:
+#         "Rscript code/bed2GRanges.R {input} {output}"
 
 # ============================== EDA PLOTS ================================== #
 
