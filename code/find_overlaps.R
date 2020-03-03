@@ -2,6 +2,7 @@
 args = commandArgs(trailingOnly=TRUE)
 path2gffGRList <- args[1]
 path2top100sharedflines <- args[2]
+path2outfile <- args[3]
 
 ## A script for doing overlap opperations on genome annotations and  ##
 ## top 100 shared segments                                           ##
@@ -11,8 +12,8 @@ suppressPackageStartupMessages(library(GenomicRanges))
 suppressPackageStartupMessages(library(dplyr))
 
 print("-- loading data")
-#gff_ranges <- readRDS("results/scg_GRList.Rds") # DONE (TODO: make into txdb obj by removing 'Name' fields from GFF files)
-top100_df <- read.table("data/scg_flines_top100_shared.tsv", 
+gff_ranges <- readRDS(path2gffGRList) # DONE (TODO: make into txdb obj by removing 'Name' fields from GFF files)
+top100_df <- read.table(path2top100sharedflines, 
                         sep = "\t") # fine to just read in the flines file and treat it as a tsv
 
 print("-- pre-processing of data")
@@ -52,7 +53,10 @@ top100_ranges <- GRanges(seqnames = top100_df$genomeID,
                          )
 
 print("-- testing newly created gff_grlist and top100_granges objects")
-# head(gff_ranges)
+head(gff_ranges)
 head(top100_ranges)
 
 print("-- perform overlap functions on two sets of ranges")
+
+top100_gff_overlaps <- subsetByOverlaps(gff_ranges, top100_ranges)
+saveRDS(top100_gff_overlaps, path2outfile)

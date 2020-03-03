@@ -213,16 +213,16 @@ rule subset_flines_by_top100_shared_segs:
     output:
         "data/scg_flines_top100_shared.tsv"
     run:
-        shell("awk 'NR==FNR{pats[$0]; next} $2 in pats' {input.top100shared_segs} {input.flines} > {output}")
+        shell("awk 'NR==FNR{{pat[$0]; next}} $2 in pat' {input.top100shared_segs} {input.flines} > {output}")
 
 rule find_overlaps_top100:
     input:
         gffGRList = "results/scg_GRList.Rds",
         top100shared_flines = "data/scg_flines_top100_shared.tsv"
     output:
-        "" # not sure yet
-    shell:
-        "Rscript code/find_overlaps.R {input.gffGRList} {input.top100shared_flines}"
+        "results/top100_gff_overlaps.Rds"
+    shell: 
+        "Rscript code/find_overlaps.R {input.gffGRList} {input.top100shared_flines} {output}"
 
 rule clines_to_bed:
     input:
