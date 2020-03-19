@@ -280,7 +280,7 @@ rule clines_to_bed:
 
 rule make_uniqSegsInfoDF:
     input: 
-        genomes = "data/genomes.json",
+        genomes = "data/scg_genomes.json",
         genInfoDF_tmp = "results/genInfoDF_tmp.pickle",
         uniqSegInfoDF = "results/uniqSegInfoDF.pickle"
     output: 
