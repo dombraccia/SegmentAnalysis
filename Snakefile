@@ -85,7 +85,7 @@ rule tpc_gd_scg_gfa1:
     input:
 	"data/subset_complete_genome.fasta"
     output:
-       "data/subset_complete_genome.gfa1"
+        "data/subset_complete_genome.gfa1"
     shell:
         "bash code/tpc_gd.sh 40 scg_de_Bruijn.bin gfa1 99 {input} {output}"
 
