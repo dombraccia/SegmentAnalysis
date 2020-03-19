@@ -11,8 +11,10 @@ print("-- loading libraries")
 suppressPackageStartupMessages(library(GenomicRanges))
 suppressPackageStartupMessages(library(dplyr))
 
-print("-- loading data")
+print("-- loading GFF data")
 gff_ranges <- readRDS(path2gffGRList) # DONE (TODO: make into txdb obj by removing 'Name' fields from GFF files)
+
+print("-- loading top100 shared segments data")
 top100_df <- read.table(path2top100sharedflines, 
                         sep = "\t") # fine to just read in the flines file and treat it as a tsv
 

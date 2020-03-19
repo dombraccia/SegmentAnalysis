@@ -6,7 +6,8 @@
 
 # =========================== SEGMENT GENERATION ============================ #
 
-rule download_refseq_genomes: # also downloads genome annotations from same loc
+# also downloads genome annotations from same loc
+rule download_refseq_genomes: 
     output:
         "data/all_complete_refseq_bac.fasta"
     shell:
@@ -31,6 +32,21 @@ rule concatenate_gff_files: # FOR NOW: cat_gff_files.sh is hard coded to work
         "data/scg_annotations.gff"
     shell: 
         "bash code/cat_gff_files.sh {output}"
+
+rule clean_gff_files:
+    input:
+        "data/scg_annotations.gff"
+    output:
+        "data/scg_annotations_clean.gff"
+    shell: "code/clean_gff.sh {input} {output}"
+
+# not creating TxDb object for now (19 Mar 2020)
+#rule gff_to_txdb:
+#    input: 
+#        "data/scg_annotations_clean.gff"
+#    output:
+#
+#    shell:
 
 rule gff2GRList:
     input:
