@@ -70,7 +70,7 @@ rule subset_selected_seqs:
     output:
         "data/subset_complete_genome.fasta"
     shell:
-        "time bash code/subset_selected_seqs.sh"
+        "time bash code/subset_selected_seqs.sh {input} {output}"
 
 # may want to split into two rules, so that the graph can be dumped as either gfa1 or gfa2
 rule tpc_gd_scg:
