@@ -75,11 +75,11 @@ rule subset_selected_seqs:
 # may want to split into two rules, so that the graph can be dumped as either gfa1 or gfa2
 rule tpc_gd_scg:
     input:
-       "data/subset_complete_genome.fasta"
+        "data/subset_complete_genome.fasta"
     output: 
 	"data/subset_complete_genome.gfa2"
     shell:
-        "bash code/tpc_gd.sh 40 scg_de_Bruijn.bin gfa2 99 {input} {outpu}"
+        "bash code/tpc_gd.sh 40 scg_de_Bruijn.bin gfa2 99 {input} {output}"
 
 rule tpc_gd_scg_gfa1:
     input:
