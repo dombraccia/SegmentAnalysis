@@ -15,9 +15,9 @@ rule download_refseq_genomes:
 
 rule multiline2oneline_refseq:
     input:
-        "data/all_complete_refseq_bac.fasta",
+        "data/all_complete_refseq_bac.fasta"
     output:
-        "data/all_complete_refseq_bac_oneline.fasta",
+        "data/all_complete_refseq_bac_oneline.fasta"
     shell:
         "bash code/multiline2oneline.sh {input} {output}"
 
